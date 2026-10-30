@@ -10,6 +10,9 @@ namespace Storage;
 public class NewProduct : INewProduct
 {
 
+    private int _id;
+    private decimal _price;
+
 
     protected NewProduct(int id, decimal price, string name, IDataMatrix code)
     {
@@ -20,19 +23,19 @@ public class NewProduct : INewProduct
 
         UpdateCode();
     }
-    public int Id { get; 
+    public int Id { get=>_id; 
         set
         {
-            if (Id == value) return;
-            Id = value;
+            if (_id == value) return;
+            _id = value;
             RaiseProductChanged();
         }
 
     }
-    public decimal Price { get ; set
+    public decimal Price { get=>_price ; set
         {
-            if(Price == value) return;
-            Price=value; RaiseProductChanged();
+            if(_price == value) return;
+            _price = value; RaiseProductChanged();
 
         }
     }

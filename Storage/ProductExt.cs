@@ -39,7 +39,7 @@ public static class ProductExt
 
     /// <summary>Подписывает товар на изменение идентификатора склада.</summary>
     public static Action<IStorage<T>> SubscribeToIdChange<T>(this T product, PackedStorage<T> storage)
-        where T : class, IProduct
+        where T : class, INewProduct
     {
 
         Action<IStorage<T>> handler = s => product.SetTextForCode(s);
@@ -49,10 +49,8 @@ public static class ProductExt
     }
     /// <summary>отписывает товар от изменение идентификатора склада.</summary>
     public static void UnSubscribeToIdChange<T>(
-        this T product,
-        PackedStorage<T>storage,
-        Action<IStorage<T>>handler)
-        where T: class, IProduct
+        this T product,PackedStorage<T>storage,Action<IStorage<T>>handler)
+        where T: class, INewProduct
     {
         storage.IdChanged -= handler;
     }

@@ -9,6 +9,5 @@ namespace Storage;
 public interface INewProduct : IProduct
 {
     event EventHandler<PackedArgs> ProductChanged;
-    event EventHandler<PackedArgs>? ProductChanged;
 }
 

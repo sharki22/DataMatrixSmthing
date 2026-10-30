@@ -13,7 +13,7 @@ public class PackedArgs : EventArgs
     public PackedArgs(int newId, decimal newPrice)
     {
         NewId = newId;
-        newPrice = NewPrice;
+        NewPrice = newPrice;
     }
 
 }

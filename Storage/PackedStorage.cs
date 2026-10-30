@@ -6,7 +6,7 @@ using System.Text;
 namespace Storage
 {
     public class PackedStorage<T> : Storage<T>
-        where T : class, IProduct
+        where T : class, INewProduct
     {
         
         ///<inheritdoc/>
