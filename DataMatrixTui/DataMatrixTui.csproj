@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataMatrix\DataMatrix.csproj" />
+    <ProjectReference Include="..\Shop\Shop.csproj" />
+    <ProjectReference Include="..\Storage\Storage.csproj"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>DataMatrixTui</AssemblyName>
+    <RootNamespace>DataMatrix.Tui</RootNamespace>
+  </PropertyGroup>
+
+</Project>
