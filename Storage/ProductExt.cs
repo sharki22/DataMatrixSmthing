@@ -37,4 +37,25 @@ public static class ProductExt
         product.SetTextForCode(storage, index);
     }
 
+    /// <summary>Подписывает товар на изменение идентификатора склада.</summary>
+    public static Action<IStorage<T>> SubscribeToIdChange<T>(this T product, PackedStorage<T> storage)
+        where T : class, IProduct
+    {
+
+        Action<IStorage<T>> handler = s => product.SetTextForCode(s);
+        storage.IdChanged += handler;
+        return handler;
+
+    }
+    /// <summary>отписывает товар от изменение идентификатора склада.</summary>
+    public static void UnSubscribeToIdChange<T>(
+        this T product,
+        PackedStorage<T>storage,
+        Action<IStorage<T>>handler)
+        where T: class, IProduct
+    {
+        storage.IdChanged -= handler;
+    }
+
+
 }
