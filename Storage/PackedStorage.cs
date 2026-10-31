@@ -26,33 +26,25 @@ namespace Storage
         private readonly Dictionary<T, Action<IStorage<T>>> _subscriptions = new();
 
 
-        /// <summary Делегат для уведомления о смене идентификатора </summary>
+        /// <summary> Делегат для уведомления о смене идентификатора </summary>
         public Action<IStorage<T>>? IdChanged;
 
-        /// <summary>
-        /// Идентификатор
-        /// </summary>
+        /// <summary>Идентификатор </summary>
         public override int Id
         {
             get => Id;
             set
             {
                 if (Id == value) return;
-
-
                 Id = value;
                 IdChanged?.Invoke(this);
-
-
             }
         }
 
         public override T? this[int index]
         {
-
             get
             {
-
                 T? product = base[index];
                 if (product is not null && _subscriptions.TryGetValue(product, out var handler))
                 {
