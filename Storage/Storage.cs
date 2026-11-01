@@ -8,7 +8,7 @@ public class Storage<T> : IStorage<T>
     where T : class, IProduct
 {
     /// <summary>Ячейки склада. Пустая ячейка содержит null.</summary>
-    private readonly T?[] _cells;
+    protected readonly T?[] _cells;
 
     /// <summary>Числовой идентификатор склада.</summary>
     private int _id;

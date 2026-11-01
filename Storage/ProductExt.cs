@@ -9,7 +9,7 @@ public static class ProductExt
     private static int _lastStorageId;
 
     /// <summary>Возвращает следующий уникальный идентификатор склада.</summary>
-    public static int NextStorageId() =>  ++_lastStorageId;
+    public static int NextStorageId() => ++_lastStorageId;
 
     /// <summary>Устанавливает текст кода товара по складу и позиции на нём.</summary>
     public static void SetTextForCode<T>(this T product, IStorage<T> storage, int index)
@@ -20,13 +20,18 @@ public static class ProductExt
             return;
         }
 
-        product.CodeMatrix.Text = $"{storage.Id}[{index}]:({product.Id}:{product.Price})";
+        product.CodeMatrix.Text = $"{storage.Id}|[{index}]:{product.Id}:{product.Price}";
     }
 
     /// <summary>Устанавливает текст кода товара, зная склад, где он находится.</summary>
     public static void SetTextForCode<T>(this T product, IStorage<T> storage)
         where T : class, IProduct
     {
+        if (product is null || storage is null)
+        {
+            return;
+        }
+
         int index = storage.Find(product.Id);
 
         if (index < 0)
@@ -37,23 +42,21 @@ public static class ProductExt
         product.SetTextForCode(storage, index);
     }
 
-    /// <summary>Подписывает товар на изменение идентификатора склада.</summary>
+    /// <summary>Подписывает товар на изменение идентификатора склада и возвращает обработчик для отписки.</summary>
     public static Action<IStorage<T>> SubscribeToIdChange<T>(this T product, PackedStorage<T> storage)
         where T : class, INewProduct
     {
-
-        Action<IStorage<T>> handler = s => product.SetTextForCode(s);
-        storage.IdChanged += handler;
-        return handler;
-
+        storage.IdChanged+=product.SetTextForCode;
+        return product.SetTextForCode;
     }
-    /// <summary>отписывает товар от изменение идентификатора склада.</summary>
+
+    /// <summary>Отписывает товар от изменения идентификатора склада.</summary>
     public static void UnSubscribeToIdChange<T>(
-        this T product,PackedStorage<T>storage,Action<IStorage<T>>handler)
-        where T: class, INewProduct
+        this T product,
+        PackedStorage<T> storage,
+        Action<IStorage<T>> handler)
+        where T : class, INewProduct
     {
         storage.IdChanged -= handler;
     }
-
-
 }
