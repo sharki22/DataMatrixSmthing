@@ -9,48 +9,8 @@ internal static class Program
     /// <summary>Запускает терминал.</summary>
     private static void Main()
     {
-        while (true)
-        {
-            Console.WriteLine();
-            Console.WriteLine("Терминал ассортимента товаров");
-            Console.WriteLine("1. Лабораторная работа №2");
-            Console.WriteLine("2. Лабораторная работа №3");
-            Console.WriteLine("3. Лабораторная работа №4");
-            Console.WriteLine("4. Сменить режим вывода Data Matrix");
-            Console.WriteLine("0. Выход");
-            Console.Write("Выбор: ");
 
-            string? choice = Console.ReadLine();
-            Console.WriteLine();
-
-            switch (choice?.Trim())
-            {
-                case "1":
-                    RunLab2();
-                    break;
-
-                case "2":
-                    RunLab3();
-                    break;
-
-                case "3":
-                    RunLab4();
-                    break;
-
-                case "4":
-                    ChangeOutputMode();
-                    break;
-
-                case "0":
-                    return;
-
-                default:
-                    Console.WriteLine("Неверный выбор.");
-                    break;
-            }
-        }
     }
-
     /// <summary>Переключает режим вывода Data Matrix по кругу.</summary>
     private static void ChangeOutputMode()
     {
@@ -64,53 +24,6 @@ internal static class Program
         Console.WriteLine($"Текущий режим вывода: {IDataMatrix.OutputMode}.");
     }
 
-    /// <summary>Пример второй лабораторной работы.</summary>
-    private static void RunLab2()
-    {
-        var binoculars = new OpticalDevice(
-            id: 1,
-            price: 1000,
-            name: "Бинокль",
-            model: "БПЦ 10x40",
-            deviceType: OpticalType.Lens,
-            material: "Металл",
-            fieldOfView: 6.5,
-            magnification: 10.0);
-
-        var telescope = new OpticalDevice(
-            id: 2,
-            price: 1500,
-            name: "Телескоп",
-            model: "Sky-Watcher BK P15012",
-            deviceType: OpticalType.Mirror,
-            material: "Сталь",
-            fieldOfView: 1.2,
-            magnification: 48.0);
-
-        IProduct[] products = [binoculars, telescope];
-
-        Console.WriteLine("До изменения");
-
-        foreach (IProduct product in products)
-            Console.WriteLine(product);
-
-        foreach (IProduct product in products)
-        {
-            product.Id++;
-            product.Price += 1;
-        }
-
-        Console.WriteLine("После изменения Id и Price");
-
-        foreach (IProduct product in products)
-            Console.WriteLine(product);
-
-        IProduct[] packageproducts = [new Package(binoculars), new Package(telescope)];
-
-        foreach (IProduct product in packageproducts)
-            Console.WriteLine(product);
-    }
-    /// <summary>Пример третьей лабораторной работы.</summary>
     private static void RunLab3()
     {
         var binoculars = new OpticalDevice(
