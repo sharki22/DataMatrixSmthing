@@ -3,22 +3,16 @@ namespace Shop;
 
 
 /// <summary>Упаковка товара.</summary>
-public sealed class Package : Product
+/// <remarks>Создаёт упаковку для товара.</remarks>
+public class Package(IProduct product) : Product(product.Id, product.Price * Markup, product.Name, new PackageCode())
 {
     /// <summary>Наценка упаковки (110%).</summary>
     private const decimal Markup = 1.10m;
 
     /// <summary>Упаковываемый товар.</summary>
-    private readonly IProduct _product;
+    private readonly IProduct _product = product;
 
-    /// <summary>Создаёт упаковку для товара.</summary>
-    public Package(IProduct product)
-        : base(product.Id, product.Price * Markup, product.Name, new PackageCode())
-    {
-        _product = product;
-    }
-
-    /// <summary>Идентификатор упаковки совпадает с идентификатором товара.</summary>
+    /// <summary>Идентификатор упаковки .</summary>
     public override int Id
     {
         get => _product?.Id ?? base.Id;

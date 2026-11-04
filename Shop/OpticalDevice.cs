@@ -1,7 +1,7 @@
 namespace Shop;
 
 /// <summary>Оптический прибор.</summary>
-public sealed class OpticalDevice : Product
+public class OpticalDevice : Product
 {
     /// <summary>Модель прибора.</summary>
     public string Model { get; }

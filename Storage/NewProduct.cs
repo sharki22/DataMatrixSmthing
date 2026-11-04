@@ -1,54 +1,63 @@
-﻿using DataMatrix;
-using Shop;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
+﻿using Shop;
 
 namespace Storage;
 
-public class NewProduct : INewProduct
+/// <summary>Запакованный товар с событием изменения данных.</summary>
+/// <remarks>Создаёт товар с автоматически сформированным кодом Data Matrix.</remarks>
+public sealed class NewProduct(int id, decimal price, string name, string type, string info) : Product(id, price, name, new DataMatrix.DataMatrix()), INewProduct
 {
+    /// <summary>Тип товара.</summary>
+    private readonly string _type = type;
 
+    /// <summary>Дополнительная информация о товаре.</summary>
+    private readonly string _info = info;
 
-    protected NewProduct(int id, decimal price, string name, IDataMatrix code)
+    /// <summary>Событие изменения идентификатора или цены товара.</summary>
+    public event EventHandler<PackedArgs>? ProductChanged;
+
+    /// <summary>Идентификатор товара.</summary>
+    public override int Id
     {
-        Id= id;
-        Price= price;
-        Name = name;
-        CodeMatrix = code;
-
-        UpdateCode();
-    }
-    public int Id { get; 
+        get => base.Id;
         set
         {
-            if (Id == value) return;
-            Id = value;
+            if (base.Id == value)
+            {
+                return;
+            }
+
+            base.Id = value;
             RaiseProductChanged();
         }
-
     }
-    public decimal Price { get ; set
+    /// <summary>Цена товара.</summary>
+    public override decimal Price
+    {
+        get => base.Price;
+        set
         {
-            if(Price == value) return;
-            Price=value; RaiseProductChanged();
+            decimal price = value < 0 ? 0 : value;
 
+            if (base.Price == price)
+            {
+                return;
+            }
+  
+            base.Price = price;
+            RaiseProductChanged();
         }
     }
 
-    public string Name { get; }
+    /// <summary>Тип товара.</summary>
+    public override string Type => _type;
 
-    public IDataMatrix CodeMatrix { get; set; }
+    /// <summary>Дополнительная информация о товаре.</summary>
+    public override string Info => _info;
 
-    public string Type { get;set;  }
+    /// <summary>Информирует подписчиков об изменении данных товара.</summary>
+    private void RaiseProductChanged() {
+        ProductChanged?.Invoke(this, new PackedArgs(Id, Price));
+        
 
-    public string Info { get; set; }
-
-    public event EventHandler<PackedArgs> ProductChanged;
-
-
-    private void RaiseProductChanged() => ProductChanged?.Invoke(this, new PackedArgs(Id, Price));
-    private void UpdateCode() => CodeMatrix.Text = $"{Id}:{Price}";
+    }
 }
-

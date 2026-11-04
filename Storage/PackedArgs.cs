@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Storage;
 
-namespace Storage;
-
-public class PackedArgs : EventArgs
+/// <summary>Аргументы события изменения данных товара.</summary>
+public sealed class PackedArgs(int newId, decimal newPrice) : EventArgs
 {
-    public int NewId { get; set; }
-    public decimal NewPrice { get; set; }
+    /// <summary>Новый идентификатор товара.</summary>
+    public int NewId { get; } = newId;
 
-
-    public PackedArgs(int newId, decimal newPrice)
-    {
-        NewId = newId;
-        newPrice = NewPrice;
-    }
-
+    /// <summary>Новая цена товара.</summary>
+    public decimal NewPrice { get; } = newPrice;
 }
